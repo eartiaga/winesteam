@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  winesteam:
+    build:
+      context: .
+      args:
+        wine_tag: "wine-3.13"
+        gecko_tag: "2.47"
+        mono_tag: "4.7.3"
+        steam_user: "${STEAM_USER:-steam}"
+        steam_uid: "${STEAM_UID:-1001}"
+    image: eartiaga/winesteam
+    network_mode: bridge
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/machine-id:/etc/machine-id:ro
+      - $XDG_RUNTIME_DIR/pulse:/run/user/1000/pulse
+      # Persistent directory for wine data
+      - ${WINE_DATADIR:-./data}:/home/${STEAM_USER:-steam}/data
+    devices:
+      - /dev/nvidia0
+      - /dev/nvidiactl
+      - /dev/nvidia-modeset
+      - /dev/dri
+      - /dev/snd
+    environment:
+      - DISPLAY=unix$DISPLAY
+      - PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native
+      - WINE_BITS=${WINE_BITS:-64}
+      - STEAM_SKIP=${STEAM_SKIP:-no}
+    shm_size: 4G
+

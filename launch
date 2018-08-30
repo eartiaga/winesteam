@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# Log everything to stdout
+exec 2>&1
+
+DATADIR="$HOME/data"
+case "x$WINE_BITS" in
+    x32)
+        export WINEARCH=win32
+        export WINEDIR="$DATADIR/w32"
+        export WINEPREFIX=$WINEDIR
+        ;;
+    x|x64)
+        export WINEARCH=win64
+        export WINEDIR="$DATADIR/w64"
+        export WINEPREFIX=$WINEDIR
+        ;;
+    *)
+        echo "Unexpected arch bits: $WINE_BITS"
+        exit 1
+        ;;
+esac
+
+# Debugging options
+#export WINEDEBUG="fixme-all"
+export WINEDEBUG=
+
+# Bail on failure
+set -e
+
+# Setup on first launch
+if [ ! -d "$WINEPREFIX" ]; then
+    echo "creating wine directory $WINEPREFIX ..."
+    mkdir "$WINEPREFIX"
+
+    echo "installing gecko"
+    if [ "$WINEARCH" == "win32" ]; then
+        wine msiexec /i /usr/local/share/wine/gecko/wine_gecko-$GECKO_VERSION-x86.msi
+    else
+        wine msiexec /i /usr/local/share/wine/gecko/wine_gecko-$GECKO_VERSION-x86_64.msi
+    fi
+
+    echo "installing core fonts..."
+    winetricks corefonts
+
+    echo "forcing XP for steam..."
+    if [ "$WINEARCH" == "win32" ]; then
+        wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe" /v "Version" /t "REG_SZ" /d "winxp" /f
+        wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe" /v "Version" /t "REG_SZ" /d "winxp" /f
+    else
+        wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe" /v "Version" /t "REG_SZ" /d "winxp64" /f
+        wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe" /v "Version" /t "REG_SZ" /d "winxp64" /f
+    fi
+
+    echo "installing steam..."
+    winetricks --no-isolate steam
+    wait
+
+    echo "starting wincfg for final tweaking..."
+    winecfg
+    echo "wine ready"
+fi
+
+case "$STEAM_SKIP" in
+    wait)
+        zenity --info --text="Wine Docker on stand-by. Click OK to terminate."
+        wait
+        ;;
+    shell)
+        x-terminal-emulator
+        wait
+        ;;
+    cfg)
+        winecfg
+        wait
+        ;;
+    yes)
+        if [ -x "$DATADIR/launch.rc" ]; then
+            echo "running user launcher..."
+            source "$DATADIR/launch.rc"
+        fi
+        if [ -x "$WINEDIR/launch.rc" ]; then
+            echo "running wine launcher..."
+            source "$WINEDIR/launch.rc"
+        fi
+        wait
+        ;;
+    *)
+        # Start steam
+        echo "starting steam..."
+        wineconsole --backend=user "C:\\Program Files (x86)\\Steam\\Steam.exe" -no-cef-sandbox
+        wait
+        echo "steam terminated"
+        ;;
+esac
+
