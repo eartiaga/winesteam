@@ -59,11 +59,11 @@ variables take precedence over the file. The relevant variables are:
   to `steam`, but it can be changed according to taste.
 
 * STEAM_SKIP: Instead of starting steam, perform an alternative action:
-** yes: leave the container on stand-by
-** shell: start an interactive shell
-** cfg: run winecfg
-** yes: execute the contents of $WINE_DATADIR/launch.rc, instead of steam
-** no: perform the default action (i.e. start steam)
+  * yes: leave the container on stand-by
+  * shell: start an interactive shell
+  * cfg: run winecfg
+  * yes: execute the contents of $WINE_DATADIR/launch.rc, instead of steam
+  * no: perform the default action (i.e. start steam)
 
 Troubleshooting
 ---------------
