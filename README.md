@@ -1,11 +1,10 @@
-Sid-based Steam Docker
+Wine-based Steam Docker
 ======================
 
 This is a steam launcher based on Debian Sid (a.k.a. Unstable) and wine (https://www.winehq.org),
 ready to run in a Docker container.
 
-It expects relatively new NVidia graphic cards (i.e. those supported by
-non-legacy NVidia drivers).
+It expects relatively new NVidia graphic cards (i.e. those supported by non-legacy NVidia drivers).
 
 
 Acknowledgments
@@ -45,7 +44,7 @@ variables take precedence over the file. The relevant variables are:
 
 * WINE_DATADIR: The directory that the Steam launcher will use to store
   persistent local data. It defaults to a directory named `data` in the repository's
-  root.
+  root, and it is bound to a data subdirectory in the in-docker's user home directory.
 
 * WINE_BITS: Expected values are 64 or 32, indicating if a 64 or 32 bit environment
   should be used.
@@ -59,10 +58,11 @@ variables take precedence over the file. The relevant variables are:
   to `steam`, but it can be changed according to taste.
 
 * STEAM_SKIP: Instead of starting steam, perform an alternative action:
-  * yes: leave the container on stand-by
-  * shell: start an interactive shell
+  * wait: leave the container on stand-by (in case you want to connect by other means)
+  * shell: start an interactive shell (so you can temporarily tweak it)
   * cfg: run winecfg
-  * yes: execute the contents of $WINE_DATADIR/launch.rc, instead of steam
+  * yes: execute the contents of $WINE_DATADIR/launch.rc, instead of steam (useful to
+    play other games with wine)
   * no: perform the default action (i.e. start steam)
 
 Troubleshooting
@@ -79,7 +79,7 @@ Troubleshooting
   }
   ```
   (create the file if it does not exist; and you may use google's dns server 8.8.8.8 in case of
-  need)
+  need; then, restart docker, e.g. with `systemctl restart docker`)
 
 Disclaimer
 ----------

@@ -1,11 +1,11 @@
 FROM debian:sid
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
-ARG wine_tag
-ARG gecko_tag
-ARG mono_tag
-ARG steam_user
-ARG steam_uid
+ARG wine_tag="wine-3.13"
+ARG gecko_tag="2.47"
+ARG mono_tag="4.7.3"
+ARG steam_user="steam"
+ARG steam_uid="1001"
 
 # Avoid issues with Dialog and curses wizards
 ENV DEBIAN_FRONTEND noninteractive
