@@ -1,7 +1,7 @@
 FROM debian:sid
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
-ARG wine_tag="wine-3.13"
+ARG wine_tag="wine-3.21"
 ARG gecko_tag="2.47"
 ARG mono_tag="4.7.3"
 ARG steam_user="steam"
@@ -240,10 +240,11 @@ RUN mkdir "$WINEPREFIX64" && chown "${USER}.${USER}" "$WINEPREFIX64" && \
     su "$USER" -c "WINEPREFIX=$WINEPREFIX64 winetricks corefonts"
 
 # Force WinXP for steam
-RUN su "$USER" -c "WINEPREFIX=$WINEPREFIX32 wine reg.exe ADD \"HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe\" /v \"Version\" /t \"REG_SZ\" /d \"winxp\" /f" && \
-    su "$USER" -c "WINEPREFIX=$WINEPREFIX32 wine reg.exe ADD \"HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe\" /v \"Version\" /t \"REG_SZ\" /d \"winxp\" /f"
-RUN su "$USER" -c "WINEPREFIX=$WINEPREFIX64 wine reg.exe ADD \"HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe\" /v \"Version\" /t \"REG_SZ\" /d \"winxp64\" /f" && \
-    su "$USER" -c "WINEPREFIX=$WINEPREFIX64 wine reg.exe ADD \"HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe\" /v \"Version\" /t \"REG_SZ\" /d \"winxp64\" /f"
+# NOT NEEDED ANYMORE
+#RUN su "$USER" -c "WINEPREFIX=$WINEPREFIX32 wine reg.exe ADD \"HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe\" /v \"Version\" /t \"REG_SZ\" /d \"winxp\" /f" && \
+#    su "$USER" -c "WINEPREFIX=$WINEPREFIX32 wine reg.exe ADD \"HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe\" /v \"Version\" /t \"REG_SZ\" /d \"winxp\" /f"
+#RUN su "$USER" -c "WINEPREFIX=$WINEPREFIX64 wine reg.exe ADD \"HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe\" /v \"Version\" /t \"REG_SZ\" /d \"winxp64\" /f" && \
+#    su "$USER" -c "WINEPREFIX=$WINEPREFIX64 wine reg.exe ADD \"HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe\" /v \"Version\" /t \"REG_SZ\" /d \"winxp64\" /f"
 
 # <OPTIONAL ENDS>
 

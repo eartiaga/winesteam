@@ -25,10 +25,45 @@ esac
 #export WINEDEBUG="fixme-all"
 export WINEDEBUG=
 
+# Common Dirs
+DOCDIR="My Documents"
+DOCDATA="$DATADIR/$DOCDIR"
+GAMEDIR="My Games"
+GAMEDATA="$DATADIR/$GAMEDIR"
+MUSICDIR="My Music"
+MUSICDATA="$DATADIR/$MUSICDIR"
+VIDEODIR="My Videos"
+VIDEODATA="$DATADIR/$VIDEODIR"
+
 # Bail on failure
 set -e
 
 # Setup on first launch
+
+if [ ! -d "$DOCDATA" ]; then
+    echo "creating persistent doc data directory $DOCDATA ..."
+    mkdir "$DOCDATA"
+fi
+rm -f "$HOME/$DOCDIR"; ln -s "$DOCDATA" "$HOME/$DOCDIR"
+
+if [ ! -d "$GAMEDATA" ]; then
+    echo "creating persistent game data directory $GAMEDATA ..."
+    mkdir "$GAMEDATA"
+fi
+rm -f "$HOME/$GAMEDIR"; ln -s "$GAMEDATA" "$HOME/$GAMEDIR"
+
+if [ ! -d "$MUSICDATA" ]; then
+    echo "creating persistent music data directory $MUSICDATA ..."
+    mkdir "$MUSICDATA"
+fi
+rm -f "$HOME/$MUSICDIR"; ln -s "$MUSICDATA" "$HOME/$MUSICDIR"
+
+if [ ! -d "$VIDEODATA" ]; then
+    echo "creating persistent video data directory $VIDEODATA ..."
+    mkdir "$VIDEODATA"
+fi
+rm -f "$HOME/$VIDEODIR"; ln -s "$VIDEODATA" "$HOME/$VIDEODIR"
+
 if [ ! -d "$WINEPREFIX" ]; then
     echo "creating wine directory $WINEPREFIX ..."
     mkdir "$WINEPREFIX"
@@ -43,14 +78,15 @@ if [ ! -d "$WINEPREFIX" ]; then
     echo "installing core fonts..."
     winetricks corefonts
 
-    echo "forcing XP for steam..."
-    if [ "$WINEARCH" == "win32" ]; then
-        wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe" /v "Version" /t "REG_SZ" /d "winxp" /f
-        wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe" /v "Version" /t "REG_SZ" /d "winxp" /f
-    else
-        wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe" /v "Version" /t "REG_SZ" /d "winxp64" /f
-        wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe" /v "Version" /t "REG_SZ" /d "winxp64" /f
-    fi
+    # not needed anymore
+    #echo "forcing XP for steam..."
+    #if [ "$WINEARCH" == "win32" ]; then
+    #    wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe" /v "Version" /t "REG_SZ" /d "winxp" /f
+    #    wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe" /v "Version" /t "REG_SZ" /d "winxp" /f
+    #else
+    #    wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe" /v "Version" /t "REG_SZ" /d "winxp64" /f
+    #    wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe" /v "Version" /t "REG_SZ" /d "winxp64" /f
+    #fi
 
     echo "installing steam..."
     winetricks --no-isolate steam

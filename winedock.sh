@@ -30,7 +30,7 @@ if [ -z "$WINE_DATADIR" -o ! -d "$WINE_DATADIR" ]; then
     exit 1
 fi
 
-echo "Launching Sid Steam Docker from: $BINDIR"
+echo "Launching Wine Steam Docker from: $BINDIR"
 echo "- User: $STEAM_UID ($(id -un $STEAM_UID))"
 echo "- Data: $WINE_DATADIR"
 echo "- Bits: $WINE_BITS"
