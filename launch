@@ -64,7 +64,7 @@ if [ ! -d "$VIDEODATA" ]; then
 fi
 rm -f "$HOME/$VIDEODIR"; ln -s "$VIDEODATA" "$HOME/$VIDEODIR"
 
-if [ ! -d "$WINEPREFIX" ]; then
+if [ ! -d "$WINEPREFIX" -o "$STEAM_SKIP" = "reinstall" ]; then
     echo "creating wine directory $WINEPREFIX ..."
     mkdir "$WINEPREFIX"
 
@@ -77,16 +77,6 @@ if [ ! -d "$WINEPREFIX" ]; then
 
     echo "installing core fonts..."
     winetricks corefonts
-
-    # not needed anymore
-    #echo "forcing XP for steam..."
-    #if [ "$WINEARCH" == "win32" ]; then
-    #    wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe" /v "Version" /t "REG_SZ" /d "winxp" /f
-    #    wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe" /v "Version" /t "REG_SZ" /d "winxp" /f
-    #else
-    #    wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\Steam.exe" /v "Version" /t "REG_SZ" /d "winxp64" /f
-    #    wine reg.exe ADD "HKEY_CURRENT_USER\Software\Wine\AppDefaults\steamwebhelper.exe" /v "Version" /t "REG_SZ" /d "winxp64" /f
-    #fi
 
     echo "installing steam..."
     winetricks --no-isolate steam

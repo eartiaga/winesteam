@@ -2,12 +2,13 @@ version: '3'
 
 services:
   winesteam:
+    privileged: true
     build:
       context: .
       args:
-        wine_tag: "wine-3.21"
+        wine_tag: "wine-5.3"
         gecko_tag: "2.47"
-        mono_tag: "4.7.3"
+        mono_tag: "4.9.4"
         steam_user: "${STEAM_USER:-steam}"
         steam_uid: "${STEAM_UID:-1001}"
     image: eartiaga/winesteam
