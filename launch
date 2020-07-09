@@ -78,6 +78,10 @@ if [ ! -d "$WINEPREFIX" -o "$STEAM_SKIP" = "reinstall" ]; then
     echo "installing core fonts..."
     winetricks corefonts
 
+    echo "installing common dependencies..."
+    winetricks dxvk
+    winetricks xact
+
     echo "installing steam..."
     winetricks --no-isolate steam
     wait

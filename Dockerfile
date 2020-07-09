@@ -5,7 +5,7 @@
 FROM debian:sid-slim as build64
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
-ARG wine_tag="wine-5.3"
+ARG wine_tag="wine-5.11"
 
 # Avoid issues with Dialog and curses wizards
 ENV DEBIAN_FRONTEND noninteractive
@@ -276,6 +276,7 @@ RUN apt-get install -qy \
         gettext \
         gstreamer1.0-libav \
         gstreamer1.0-plugins-base \
+        gstreamer1.0-plugins-good \
         libasound2 \
         libasound2-plugins \
         libattr1 \
@@ -337,6 +338,7 @@ RUN apt-get install -qy \
         gettext:i386 \
         gstreamer1.0-libav:i386 \
         gstreamer1.0-plugins-base:i386 \
+        gstreamer1.0-plugins-good:i386 \
         libasound2:i386 \
         libasound2-plugins:i386 \
         libattr1:i386 \
