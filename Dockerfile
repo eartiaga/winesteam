@@ -5,7 +5,7 @@
 FROM debian:sid-slim as build64
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
-ARG wine_tag="wine-5.12"
+ARG wine_tag="wine-5.14"
 
 # Avoid issues with Dialog and curses wizards
 ENV DEBIAN_FRONTEND noninteractive
@@ -16,10 +16,11 @@ RUN echo "deb http://deb.debian.org/debian sid contrib non-free" \
         apt-get update -qy
 
 # Build tools
-RUN apt-get install -qy git build-essential autoconf-archive flex bison
+RUN apt-get update -qy && apt-get install -qy \
+        git build-essential autoconf-archive flex bison
 
 # Install nvidia support files
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
         libgl1-nvidia-glvnd-glx \
         nvidia-cg-dev \
         nvidia-driver \
@@ -33,7 +34,7 @@ RUN mkdir -p "$WINEHQ" && cd "$WINEHQ" && \
         git checkout "$wine_tag"
 
 # Wine build dependencies
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
         gettext \
         gstreamer1.0-plugins-base \
         libasound2-dev \
@@ -119,13 +120,17 @@ RUN dpkg --add-architecture i386 && \
         apt-get update -qy
 
 # Install basic i386 support
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
+        libc6 \
+        libgcc-s1
+
+RUN apt-get update -qy && apt-get install -qy \
         gcc-multilib \
         libc6-i386 \
         libc6:i386
 
 # Build tools
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
         autoconf-archive \
         bison \
         build-essential \
@@ -133,14 +138,14 @@ RUN apt-get install -qy \
         git
 
 # Install nvidia support files
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
       libgl1-nvidia-glvnd-glx:i386 \
       nvidia-cg-dev:i386 \
       nvidia-driver \
       nvidia-opencl-dev
 
 # Wine build dependencies
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
       gettext:i386 \
       gstreamer1.0-plugins-base:i386 \
       libasound2-dev:i386 \
@@ -211,11 +216,11 @@ RUN mkdir "$WINEHQ_COMBO" && cd "$WINEHQ_COMBO" && \
 # WINE #
 ########
 
-FROM debian:sid as wine
+FROM debian:sid-slim as wine
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
-ARG gecko_tag="2.47"
-ARG mono_tag="4.9.4"
+ARG gecko_tag="2.47.1"
+ARG mono_tag="5.1.0"
 ARG steam_user="steam"
 ARG steam_uid="1001"
 
@@ -241,13 +246,20 @@ RUN dpkg --add-architecture i386 && \
         apt-get update -qy
 
 # Install basic i386 support
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
+        libc6 \
+        libgcc-s1
+
+RUN apt-get update -qy && apt-get install -qy \
+        libgcc-s1:i386
+
+RUN apt-get update -qy && apt-get install -qy \
         gcc-multilib \
         libc6-i386 \
         libc6:i386
 
 # Build tools
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
         autoconf-archive \
         bison \
         build-essential \
@@ -255,7 +267,7 @@ RUN apt-get install -qy \
         git
 
 # Install nvidia support files
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
         libegl-nvidia0 \
         libegl-nvidia0:i386 \
         libgl1-nvidia-glvnd-glx \
@@ -272,7 +284,7 @@ RUN cd "$WINEHQ_COMBO" && make install
 RUN cd "$WINEHQ64" && make install
 
 # Install wine runtime 64-bit dependencies
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
         gettext \
         gstreamer1.0-libav \
         gstreamer1.0-plugins-base \
@@ -334,7 +346,7 @@ RUN apt-get install -qy \
         zlib1g
 
 # Install wine runtime 32-bit dependencies
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
         gettext:i386 \
         gstreamer1.0-libav:i386 \
         gstreamer1.0-plugins-base:i386 \
@@ -396,7 +408,7 @@ RUN apt-get install -qy \
         zlib1g:i386
 
 # Install tools useful for wine and related tools
-RUN apt-get install -qy \
+RUN apt-get update -qy && apt-get install -qy \
         cabextract \
         fonts-liberation \
         fonts-wine \
@@ -428,7 +440,7 @@ RUN mkdir -p "/usr/local/share/wine/steam" && cd "/usr/local/share/wine/steam" &
         chmod a+rx /usr/local/share/wine/steam/SteamSetup.exe
 
 # Set up sudo
-RUN apt-get install -qy sudo && \
+RUN apt-get update -qy && apt-get install -qy sudo && \
         echo "$steam_user ALL = NOPASSWD: ALL" > /etc/sudoers.d/winesteam && \ 
         chmod 440 /etc/sudoers.d/winesteam
 
@@ -444,10 +456,10 @@ RUN adduser --disabled-password --gecos 'Steam User' \
         chown "${USER}.${USER}" "$HOME/data"
 
 # Install some useful packages
-RUN apt-get install -qy apt zenity curl gnupg net-tools attr xattr
+RUN apt-get update -qy && apt-get install -qy apt zenity curl gnupg net-tools attr xattr
 
 # Set up dnsmasq
-RUN apt-get install -qy dnsmasq
+RUN apt-get update -qy && apt-get install -qy dnsmasq
 COPY ./dnsmasq.conf /etc/dnsmasq.conf
 
 ## <OPTIONAL STARTS>
