@@ -1,0 +1,17 @@
+# Install tools and miscellaneous runtime packages
+attr
+cabextract
+curl
+dnsmasq
+fonts-liberation
+fonts-wine
+gnupg
+lxterminal
+make
+mscompress
+net-tools
+sudo
+ttf-mscorefonts-installer
+xattr
+zenity
+

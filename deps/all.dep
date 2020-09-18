@@ -1,0 +1,10 @@
+# Nvidia support files
+libegl-nvidia0
+libegl-nvidia0:i386
+libgl1-nvidia-glvnd-glx
+libgl1-nvidia-glvnd-glx:i386
+nvidia-cg-dev
+nvidia-cg-dev:i386
+nvidia-driver
+nvidia-opencl-dev
+

@@ -1,0 +1,10 @@
+# Build tools
+autoconf-archive
+bison
+build-essential
+flex
+git
+
+# Build dependencies
+libgss-dev
+oss4-dev
