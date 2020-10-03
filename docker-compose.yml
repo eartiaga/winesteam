@@ -7,7 +7,7 @@ services:
     build:
       context: .
       args:
-        wine_tag: "wine-5.14"
+        wine_tag: "wine-5.17"
         gecko_tag: "2.47.1"
         mono_tag: "5.1.0"
         steam_user: "${STEAM_USER:-steam}"
