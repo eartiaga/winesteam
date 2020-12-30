@@ -118,7 +118,7 @@ case "$STEAM_SKIP" in
     *)
         # Start steam
         echo "starting steam..."
-        wineconsole --backend=user "C:\\Program Files (x86)\\Steam\\Steam.exe" -no-cef-sandbox
+        wineconsole "C:\\Program Files (x86)\\Steam\\Steam.exe" -no-cef-sandbox
         wait
         echo "steam terminated"
         ;;
