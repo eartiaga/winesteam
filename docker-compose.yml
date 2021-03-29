@@ -7,9 +7,9 @@ services:
     build:
       context: .
       args:
-        wine_tag: "wine-5.19"
-        gecko_tag: "2.47.1"
-        mono_tag: "5.1.0"
+        wine_tag: "wine-6.5"
+        gecko_tag: "2.47.2"
+        mono_tag: "6.1.0"
         steam_user: "${STEAM_USER:-steam}"
         steam_uid: "${STEAM_UID:-1001}"
     image: eartiaga/winesteam

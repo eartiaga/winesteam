@@ -5,7 +5,7 @@
 FROM debian:sid-slim as build64
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
-ARG wine_tag="wine-5.19"
+ARG wine_tag="wine-6.5"
 
 # Avoid issues with Dialog and curses wizards
 ENV DEBIAN_FRONTEND noninteractive
@@ -88,8 +88,8 @@ RUN mkdir "$WINEHQ_COMBO" && cd "$WINEHQ_COMBO" && \
 FROM debian:sid-slim as wine
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
-ARG gecko_tag="2.47.1"
-ARG mono_tag="5.1.0"
+ARG gecko_tag="2.47.2"
+ARG mono_tag="6.1.0"
 ARG steam_user="steam"
 ARG steam_uid="1001"
 

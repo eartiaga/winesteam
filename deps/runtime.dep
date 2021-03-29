@@ -6,7 +6,7 @@ gstreamer1.0-plugins-good
 libasound2
 libasound2-plugins
 libattr1
-libcdio18
+libcdio19
 libcups2
 libdbus-1-3
 libfaudio0
