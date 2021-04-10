@@ -5,7 +5,7 @@
 FROM debian:sid-slim as build64
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
-ARG wine_tag="wine-6.5"
+ARG wine_tag="wine-6.6"
 
 # Avoid issues with Dialog and curses wizards
 ENV DEBIAN_FRONTEND noninteractive
