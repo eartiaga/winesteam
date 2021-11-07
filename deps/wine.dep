@@ -30,6 +30,7 @@ libsane-dev
 libsdl2-dev
 libtiff-dev
 libudev-dev
+libunwind-dev
 libv4l-dev
 libvkd3d-dev
 libvulkan-dev

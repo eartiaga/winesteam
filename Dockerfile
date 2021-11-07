@@ -5,7 +5,7 @@
 FROM debian:sid-slim as build64
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
-ARG wine_tag="wine-6.6"
+ARG wine_tag="wine-6.20"
 
 # Avoid issues with Dialog and curses wizards
 ENV DEBIAN_FRONTEND noninteractive
@@ -89,7 +89,7 @@ FROM debian:sid-slim as wine
 MAINTAINER Ernest Artiaga <ernest.artiaga@eartiam.net>
 
 ARG gecko_tag="2.47.2"
-ARG mono_tag="6.1.0"
+ARG mono_tag="6.4.0"
 ARG steam_user="steam"
 ARG steam_uid="1001"
 
@@ -160,6 +160,7 @@ RUN adduser --disabled-password --gecos 'Steam User' \
         --home "$HOME" --uid "$UID" "$USER" && \ 
         adduser "$USER" video && \ 
         adduser "$USER" audio && \ 
+        adduser "$USER" cdrom && \ 
         mkdir -p "$HOME/data" && \ 
         chown "${USER}.${USER}" "$HOME/data"
 
