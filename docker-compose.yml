@@ -7,9 +7,9 @@ services:
     build:
       context: .
       args:
-        wine_tag: "wine-6.20"
+        wine_tag: "wine-6.22"
         gecko_tag: "2.47.2"
-        mono_tag: "6.4.0"
+        mono_tag: "7.0.0"
         steam_user: "${STEAM_USER:-steam}"
         steam_uid: "${STEAM_UID:-1001}"
     image: eartiaga/winesteam
@@ -33,4 +33,5 @@ services:
       - WINE_BITS=${WINE_BITS:-64}
       - STEAM_SKIP=${STEAM_SKIP:-no}
     shm_size: 4G
+    # shm_size: 3584M
 
